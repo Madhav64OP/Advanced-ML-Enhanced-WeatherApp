@@ -17,17 +17,18 @@ import Prediction from "./components/Prediction.jsx";
 import AboutUs from "./components/AboutUs.jsx";
 
 const router = createBrowserRouter(
+  // basename: "/Advanced-ML-Enhanced-WeatherApp"},
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="home" element={<Home />} />
-        {/* <Route path="next7days" element={}/> */}
+      {/* <Route path="next7days" element={}/> */}
       {/* </Route> */}
       <Route path="maps" element={<Maps />} />
-      <Route path="" element={<LandingPage />} />
-      <Route path="radar" element={<Prediction/>}/>
-      <Route path="aboutus" element={<AboutUs/>}/>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="radar" element={<Prediction />} />
+      <Route path="aboutus" element={<AboutUs />} />
     </Route>
-  )
+  ),
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
