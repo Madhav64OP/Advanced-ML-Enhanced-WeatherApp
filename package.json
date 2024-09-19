@@ -1,7 +1,7 @@
 {
   "name": "weather-application",
   "homepage": "https://Madhav64OP.github.io/Advanced-ML-Enhanced-WeatherApp",
-  "private": false,
+  "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
