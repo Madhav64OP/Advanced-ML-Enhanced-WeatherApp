@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*  {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 410;
+  font-style: normal;
+}
+
+body,html{
+  @apply overflow-x-hidden;
+}
+
+body{
+  background-color: #111015;
+}
+

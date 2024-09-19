@@ -1,0 +1,50 @@
+#nav-curr-loc {
+    padding: 0.5rem;
+}
+
+#nav-search {
+    width: 100%; /* Make search bar full width */
+    padding: 0.5rem;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+@media (max-width: 768px) {
+    #navigations {
+       display: none;
+    }
+    #nav-search>input {
+        /* display: none; */
+        max-width: 180px;
+        border-radius: 10%;
+        display: flex;
+     }
+    #nav-search {
+        /* display: none; */
+        width: 300px;
+        border-radius: 10%;
+        display: flex;
+     }
+     #nav-search > input::placeholder {
+        /* display: none; */
+        /* content: url("https://fontawesome.com/icons/magnifying-glass?f=classic&s=solid"); */
+        /* color: transparent; */
+        /* content: "Y"; */
+     }
+     #dark-light-btn{
+        display: none;
+     }
+     #nav-profile{
+        display: none;
+     }
+  }
+
+
+
+
+  /* Navbar.css */
+
+/* Base styles for mobile-first design */
+
+
+
+  

@@ -1,0 +1,1 @@
+`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${query}?unitGroup=metric&include=days%2Ccurrent%2Calerts&key=UTYWZJBDXR83KQSNN7FDSD73C&contentType=json`
