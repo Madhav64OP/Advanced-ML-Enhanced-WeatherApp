@@ -16,8 +16,8 @@ import LandingPage from "./components/LandingPage.jsx";
 import Prediction from "./components/Prediction.jsx";
 import AboutUs from "./components/AboutUs.jsx";
 
+// basename: "/Advanced-ML-Enhanced-WeatherApp"},
 const router = createBrowserRouter(
-  // basename: "/Advanced-ML-Enhanced-WeatherApp"},
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="home" element={<Home />} />
