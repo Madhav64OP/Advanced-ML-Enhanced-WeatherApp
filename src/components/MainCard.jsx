@@ -7,7 +7,7 @@ function MainCard() {
   const dispatch = useDispatch();
   const WData = useSelector((state) => state.wData.mainData);
   const API2Data = useSelector((state) => state.wData.weekData);
-  // const dayOfData=(Date(WData.location)).toLocaleDateString()
+
 
   useEffect(() => {
     dispatch(fetchWeatherData());

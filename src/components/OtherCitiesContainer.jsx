@@ -6,6 +6,8 @@ import {
   updateQuery2,
 } from "../redux/slices/WeatherDataSlice";
 
+const weatherApiKey=import.meta.env.VITE_WEATHER_API;
+
 function OtherCitiesContainer() {
   const [cityData, setCityData] = useState({
     delhi:null,
@@ -15,7 +17,7 @@ function OtherCitiesContainer() {
 
   const fetchStaticData = async (query) => {
     let response = await fetch(
-      `https://api.weatherapi.com/v1/forecast.json?key=9593595eee804c038e862030240803&q=${query}&days=7&aqi=yes&alerts=yes`
+      `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${query}&days=7&aqi=yes&alerts=yes`
     );
     if(!response.ok) throw new Error("Some problem is there");
     return await response.json();

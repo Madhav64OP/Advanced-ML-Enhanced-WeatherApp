@@ -102,7 +102,7 @@ useEffect(() => {
     <>
       <div className="text-[#fff] flex-col justify-center items-center px-52 pt-8 mt-10">
         <h1 className="text-[#fff] text-5xl mb-5">
-          Get Predictions using our ML Model
+          Get Predictions using our latest Model
         </h1>
         {/* <div className="text-[#fff] flex-col justify-center items-center mt-32 "> */}
         <div className="flex  items-center my-4">

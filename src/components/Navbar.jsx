@@ -94,7 +94,7 @@ function Navbar() {
   return (
     <>
       <div
-        className="w-screen h-[60px] bg-[#111015] text-[#fefefe] flex items-center justify-between sticky  top-0 left-0 right-0 z-20 mb-2 "
+        className="w-screen  bg-[#111015] text-[#fefefe] flex items-center justify-between sticky  top-0 left-0 right-0 z-20 mb-2 "
         id="main-nav"
       >
         {/* <div className="flex" id="main-navbar">
@@ -162,7 +162,7 @@ function Navbar() {
             </li>
             <li className="hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] flex-shrink-0">
               <NavLink to="radar" className={({isActive})=>`hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] ${isActive ? "opacity-40":"" }`}>Prediction <i className="fa-solid fa-wand-magic-sparkles"></i></NavLink>
-            </li>
+            </li> 
           </ul>
         </div>
         <div id="nav-search" className="flex-row-reverse max-w-[650px] min-w-[250px] w-auto">
