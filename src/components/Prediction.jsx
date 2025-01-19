@@ -4,54 +4,40 @@ import { useSelector } from "react-redux";
 function Prediction() {
   const [Temp, setTemp] = useState(null);
   const [Rain, setRain] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [loadText, setLoadText] = useState("")
-  const [isFetched, setIsFetched] = useState(false)
+  const [loadText, setLoadText] = useState("");
+  const [isFetched, setIsFetched] = useState(false);
 
   const WData = useSelector((state) => state.wData.mainData);
 
-  // useEffect(() => {
-  const loadingTextPopup=()=>{
-    if(loading){
-      setLoadText("Generating Results");
+  const loadingTextPopup = () => {
+    if (loading) {
+      setLoadText("Generating Results...");
     }
-  }
+  };
 
-  // if(loading==false){
+  useEffect(() => {
+    const savedTemp = localStorage.getItem("temp");
+    const savedRain = localStorage.getItem("rain");
+    const savedLoading = localStorage.getItem("loading");
 
-  // }
-  // useEffect(() => {
-  //   if(loading===true){
-  //     setBtngenerate("Generating");
-  //   }
-  //   else if(loading==false){
-  //     setBtngenerate("Regenetate");
-  //   }
-  // }, [])
-  
-
-useEffect(() => {
-  const savedTemp=localStorage.getItem("temp");
-  const savedRain=localStorage.getItem("rain");
-  const savedLoading=localStorage.getItem("loading");
-
-  if(savedTemp){
-    setTemp(savedTemp);
-  }
-  if(savedRain){
-    setRain(savedRain);
-  }
-  if(savedLoading){
-    setLoading(JSON.parse(savedLoading));
-  }
-  
-}, [])
-
+    if (savedTemp) {
+      setTemp(savedTemp);
+    }
+    if (savedRain) {
+      setRain(savedRain);
+    }
+    if (savedLoading) {
+      setLoading(JSON.parse(savedLoading));
+    }
+  }, []);
 
   const OnClickHandler = () => {
     const fetchPrediction = async () => {
       try {
+        setLoading(true);
+        setLoadText("Fetching data...");
         const response = await fetch("https://render-ml-weather-predictor.onrender.com/predict", {
           method: "POST",
           headers: {
@@ -64,14 +50,13 @@ useEffect(() => {
         });
 
         if (!response.ok) {
-          throw new Error("Response Was not OK");
+          throw new Error("Response was not OK");
         }
 
         const data = await response.json();
-        console.log(data);
-        localStorage.setItem("temp",data.temperature.toFixed(2));
-        localStorage.setItem("rain",data.rain.toFixed(2));
-        localStorage.setItem("loading",false);
+        localStorage.setItem("temp", data.temperature.toFixed(2));
+        localStorage.setItem("rain", data.rain.toFixed(2));
+        localStorage.setItem("loading", false);
         setTemp(data.temperature.toFixed(2));
         setRain(data.rain.toFixed(2));
         setIsFetched(true);
@@ -80,7 +65,7 @@ useEffect(() => {
         setIsFetched(false);
       } finally {
         setLoading(false);
-        localStorage.setItem("loading",false);
+        localStorage.setItem("loading", false);
       }
     };
 
@@ -88,49 +73,35 @@ useEffect(() => {
       fetchPrediction();
     }
   };
-  // }, [WData]);
 
-  // if (loading == true) {
-  //   return (
-  //     <div className="text-[#fff] flex justify-center items-center mt-32 ">
-  //       {" "}
-  //       Generating Results
-  //     </div>
-  //   );
-  // }
   return (
-    <>
-      <div className="text-[#fff] flex-col justify-center items-center px-52 pt-8 mt-10">
-        <h1 className="text-[#fff] text-5xl mb-5">
-          Get Predictions using our latest Model
-        </h1>
-        {/* <div className="text-[#fff] flex-col justify-center items-center mt-32 "> */}
-        <div className="flex  items-center my-4">
-          <button
-            className="rounded-2xl bg-[#D8E9F9] text-[#111015] p-4 font-medium hover:opacity-65 transition-all duration-[279ms]"
-            onClick={OnClickHandler}
-          >
-            <p className="text-xl font-normal	" onClick={loadingTextPopup}
-            > {loading? "Generating...":
-            isFetched?(<p>Regenerate <i className="fa-solid fa-arrows-spin"></i></p>):"Generate Now"}</p>
-          </button>
-          </div>
-          { !loading? 
-          <div
-            className="w-full h-[200px] flex-col bg-[#BBD7EC] rounded-3xl mr-24 flex-shrink-[0.5] overflow-hidden min-w-[330px]"
-            id="maincard-main fixed"
-          >
-            <h1 className="text-3xl text-[#111015] font-normal flex justify-start mx-7 my-6">Tomorrow's Temp : {Temp}°C</h1>
-            <h1 className="text-3xl text-[#111015] font-normal flex justify-start mx-7 my-6">Tomorrow's Rain : {Rain}mm</h1>
-          </div>: <h1>{loadText}</h1>}
-  
-        {/* {} */}
-        {/* <p>
-          Temp tomorrow is {Temp} and rain tomorrow is {Rain}
-        </p> */}
-        {/* </div> */}
+    <div className="flex flex-col items-center text-[#fff] px-52 pt-8 mt-10">
+      <h1 className="text-5xl mb-5">Get Predictions using our latest Model</h1>
+
+      <div className="flex items-center my-4">
+        <button
+          className="rounded-2xl bg-[#D8E9F9] text-[#111015] p-4 font-medium hover:opacity-65 transition-all duration-[279ms]"
+          onClick={OnClickHandler}
+        >
+          <p className="text-xl">{loading ? "Generating..." : isFetched ? "Regenerate" : "Generate Now"}</p>
+        </button>
       </div>
-    </>
+
+      {!loading ? (
+        <div className="w-full h-[200px] bg-[#BBD7EC] rounded-3xl mr-24 flex-shrink-[0.5] min-w-[330px] justify-center items-center">
+          <h1 className="text-3xl text-[#111015] font-normal flex justify-start mx-7 my-6">
+            Tomorrow's Temp: {Temp}°C
+          </h1>
+        </div>
+      ) : (
+        <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center text-lg gap-2">
+            <div className="w-[100px] h-[100px] animate-spin rounded-full border-[15px] border-t-transparent border-[#D8E9F9]"></div>
+            <div className="text-3xl text-[#D8E9F9]">Getting Results...</div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
