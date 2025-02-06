@@ -7,6 +7,9 @@
 **Advanced ML-Integrated Weather Application** 
 This project combines a sleek, modern front end with powerful machine learning predictions to create an interactive, data-driven weather application.
 
+## Site is live here  
+[Advanced ML-Enhanced WeatherApp](https://myweatherapp-gray.vercel.app/)
+
 ## Features
 
 - Developed the front end with React.js, utilizing Tailwind CSS for a modern and visually appealing theme.
