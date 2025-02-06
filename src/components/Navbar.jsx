@@ -238,7 +238,7 @@ function Navbar() {
             >
               {/*flex justify-center items-center my-[8px] */}
               <img
-                src="./icons/Profile images/profile.png"
+                src="./Profile images/profile.png"
                 alt=""
                 className="rounded-full bg-[#e5e5e5] p-2 w-14"
               />
@@ -252,7 +252,7 @@ function Navbar() {
              items-center hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] mb-2"
             >
               <img
-                src="./icons/Profile images/profile.png"
+                src="./Profile images/profile.png"
                 alt=""
                 className="rounded-full bg-[#e5e5e5] p-1 w-8 mr-2 "
               />
@@ -266,7 +266,7 @@ function Navbar() {
              items-center hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] mb-2"
             >
               <img
-                src="./icons/Profile images/setting.png"
+                src="./Profile images/setting.png"
                 alt=""
                 className="rounded-full bg-[#e5e5e5] p-1 w-8 mr-2 "
               />
@@ -280,7 +280,7 @@ function Navbar() {
              items-center hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] mb-2"
             >
               <img
-                src="./icons/Profile images/help.png"
+                src="./Profile images/help.png"
                 alt=""
                 className="rounded-full bg-[#e5e5e5] p-1 w-8 mr-2 "
               />
@@ -295,7 +295,7 @@ function Navbar() {
               onTouchMoveCapture={() => setLogin(false)}
             >
               <img
-                src="./icons/Profile images/logout.png"
+                src="./Profile images/logout.png"
                 alt=""
                 className="rounded-full bg-[#e5e5e5] p-1 w-8 mr-2 "
               />
@@ -318,7 +318,7 @@ function Navbar() {
               className="flex
              items-center justify-center hover:cursor-pointer hover:opacity-65 transition-all duration-[279ms]"
             >
-              {/* <img src="./icons/Profile images/profile.png" alt="" className="rounded-full bg-[#e5e5e5] p-1 w-8 mr-2 "/> */}
+              {/* <img src="./Profile images/profile.png" alt="" className="rounded-full bg-[#e5e5e5] p-1 w-8 mr-2 "/> */}
               <div
                 id="login_button"
                 className="bg-[#D8E9F9] rounded-2xl p-4 text-[#1E1E1E] font-medium"

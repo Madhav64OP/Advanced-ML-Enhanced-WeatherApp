@@ -19,7 +19,7 @@ function VisibilityTab() {
           id="haze-detail"
           className="flex mt-8 justify-evenly items-center px-6 font-semibold"
         > */}
-          <img src="./icons/eye-outline.png" />
+          <img src="./eye-outline.png" />
           {WData.current.vis_km < 1  && WData.current.vis_km?(<p className=" text-[#818085] text-xs sm:text-sm  md:text-base">Haze is affecting visibility</p>):
           (<p className=" text-[#818085] text-xs sm:text-sm  md:text-base">Visibility is Perfect</p>)}
         </div>

@@ -15,7 +15,7 @@ function HumidTab() {
       </div>
       <div id="humid-data" className="flex gap-2 justify-evenly items-center px-6 font-semibold">
         {/* <div id="dew-point" className="flex mt-8 gap-2 justify-evenly items-center px-6 font-semibold"> */}
-          <img src="./icons/Humidity Icon 1.png" />
+          <img src="./Humidity Icon 1.png" />
           <p className=" text-[#818085] text-xs sm:text-sm  md:text-base">The dew point is {WData.current.dewpoint_c?WData.current.dewpoint_c:"_"}°C</p>
         {/* </div> */}
       </div>
