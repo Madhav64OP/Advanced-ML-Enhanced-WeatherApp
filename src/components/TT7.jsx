@@ -16,18 +16,18 @@ function TT7() {
   return (
     <>
       <div>
-        <div className="flex bg-[#111015] gap-4 pl-[22.5px] w-full sticky overflow-hidden h-auto ">
-          <NavLink className={({isActive})=>`hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] text-[#fff] ${isActive ? "opacity-40":"" }`} to={"/"}>
-            Today
+        <div className="flex bg-[#111015] gap-4 pl-[22.5px]  overflow-hidden h-auto ">
+          <NavLink className={({isActive})=>`hover:cursor-pointer  hover:opacity-50 transition-all duration-[279ms] text-[#fff] ${isActive ? "opacity-40":"" }`} to={"/"}>
+            <p className="text-sm sm:text-base md:text-lg">Today</p>
           </NavLink>
           <NavLink className={({isActive})=>`hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] text-[#fff] ${isActive ? "opacity-40":"" }`} to={"/"}>
-            Tomorrow
+          <p className="text-sm sm:text-base md:text-lg">Tomorrow</p>
           </NavLink>
           <NavLink
             className={({isActive})=>`hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] text-[#fff] ${isActive ? "opacity-40":"" }`}
             onClick={()=> (dispatch(daysDataHandler()))} to={"/home"}
           >
-            Next 7 days
+            <p className="text-sm sm:text-base md:text-lg">Next 7 days</p>
           </NavLink>
         </div>
       </div>

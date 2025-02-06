@@ -75,8 +75,8 @@ function Prediction() {
   };
 
   return (
-    <div className="flex flex-col items-center text-[#fff] px-52 pt-8 mt-10">
-      <h1 className="text-5xl mb-5">Get Predictions using our latest Model</h1>
+    <div className="flex flex-col items-center text-[#fff] px-6 pt-8 mt-10">
+      <h1 className="text-3xl sm:text-3xl text-left md:text-5xl mb-5 font-[500]">Get Predictions with our Latest Model</h1>
 
       <div className="flex items-center my-4">
         <button
@@ -87,20 +87,25 @@ function Prediction() {
         </button>
       </div>
 
-      {!loading ? (
-        <div className="w-full h-[200px] bg-[#BBD7EC] rounded-3xl mr-24 flex-shrink-[0.5] min-w-[330px] justify-center items-center">
-          <h1 className="text-3xl text-[#111015] font-normal flex justify-start mx-7 my-6">
-            Tomorrow's Temp: {Temp}°C
-          </h1>
-        </div>
-      ) : (
-        <div className="flex justify-center items-center">
-          <div className="flex justify-center items-center text-lg gap-2">
-            <div className="w-[100px] h-[100px] animate-spin rounded-full border-[15px] border-t-transparent border-[#D8E9F9]"></div>
-            <div className="text-3xl text-[#D8E9F9]">Getting Results...</div>
+      <div className="text-lg sm:text-xl md:text-2xl text-[#D8E9F9] text-left font-normal flex justify-between gap-4 mx-7 my-6 border-[2px] px-5 py-4 hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer rounded-xl">
+        {!loading ? (
+          // <div className="w-full h-[200px] bg-[#BBD7EC] rounded-3xl mr-24 flex-shrink-[0.5] min-w-[330px] justify-center items-center">
+          <div className="flex flex-row  justify-center items-center">
+            <p>Tomorrow's Predicted Temp</p>
+            <p className="flex justify-center items-center font-semibold">{Temp}°C</p>
+
           </div>
-        </div>
-      )}
+
+          // {/* </div> */}
+        ) : (
+          <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center text-lg gap-2">
+              <div className="w-8 sm:w-[60px] md:w-[100px] aspect-square animate-spin rounded-full border-[5px] border-t-transparent border-[#D8E9F9]"></div>
+              <div className="text-base sm:text-xl md:text-3xl text-[#D8E9F9] ">Getting Results...</div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

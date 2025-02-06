@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 import { useSelector, useDispatch } from "react-redux";
-import {  updateQuery,fetchWeatherData, fetchWeekData } from "../redux/slices/WeatherDataSlice";
+import { updateQuery, fetchWeatherData, fetchWeekData } from "../redux/slices/WeatherDataSlice";
 import { NavLink } from "react-router-dom";
 // import {} from "./OtherCitiesContainer"
 
@@ -11,6 +11,7 @@ function Navbar() {
   const [notification, setNotification] = useState(false);
   const [ourQuery, setOurQuery] = useState("");
   const [profileVisible, setProfileVisible] = useState("");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   // const [notificationEnable, setNotificationEnable] = useState("hidden")
 
   const popupRef = useRef(null);
@@ -20,6 +21,10 @@ function Navbar() {
   const dispatch = useDispatch();
   const WData = useSelector((state) => state.wData.mainData);
   // console.log(WData);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  }
 
   const onClickHandler = () => {
     if (darkModeBtn === "dark") {
@@ -38,8 +43,8 @@ function Navbar() {
       event.preventDefault();
       dispatch(updateQuery(ourQuery));
       // dispatch(updateData())
-      if(ourQuery!=="") dispatch(fetchWeatherData())
-      if(ourQuery!=="") dispatch(fetchWeekData())
+      if (ourQuery !== "") dispatch(fetchWeatherData())
+      if (ourQuery !== "") dispatch(fetchWeekData())
       setOurQuery("")
     }
   };
@@ -48,7 +53,7 @@ function Navbar() {
   //   const navSearch=document.querySelector("#nav-search");
   //   navSearch.addEventListener(dataSearchHandler)
   // }, [])
-  
+
 
   const checkAnywhereClick = (e) => {
     if (
@@ -65,10 +70,10 @@ function Navbar() {
   const profileClickHandler = () => {
     profileVisible ? setProfileVisible("") : setProfileVisible("hidden");
   };
-  
+
   const notificationClickHandler = () => {
     // notificationEnable ? setNotificationEnable("") : setNotificationEnable("hidden");
-    notification ? setNotification(false):setNotification(true);
+    notification ? setNotification(false) : setNotification(true);
     // console.log(notification)
   };
 
@@ -94,40 +99,52 @@ function Navbar() {
   return (
     <>
       <div
-        className="w-screen  bg-[#111015] text-[#fefefe] flex items-center justify-between sticky  top-0 left-0 right-0 z-20 mb-2 "
+        className="w-full aspect-auto bg-[#111015] text-[#fefefe] flex items-center justify-between sticky  top-0 pt-2  z-20 mb-2 "
         id="main-nav"
       >
-        {/* <div className="flex" id="main-navbar">
-        <div id="nav-menu" className="flex-col justify-evenly items-center">
-          <div id="nav-menu">
-            <button>
-              <i className="fa-solid fa-bars"></i>
-            </button>
+        <div id="hamburger-menu" className=" flex justify-center items-center sm:hidden p-3  gap-5">
+          <button onClick={toggleMobileMenu} className="hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms]">
+            <i className="fa-solid fa-bars text-xl md:text-2xl"></i>
+          </button>
+          <i className="fa-regular fa-compass  text-xl md:text-2xl flex sm:hidden"></i>
+        </div>
+
+        {isMobileMenuOpen && (
+          <div className="fixed top-0 left-0 h-full w-2/3 p-5 z-50 bg-[#111015] text-[#fefefe] shadow-lg">
+            <div className="flex justify-between items-center mb-5">
+              <h2 className="text-2xl font-semibold">Menu</h2>
+              <i
+                className="fa-solid fa-times text-2xl cursor-pointer"
+                onClick={toggleMobileMenu}
+              ></i>
+            </div>
+            <div className="flex flex-col gap-4 text-lg">
+              <NavLink to="home" className={({ isActive }) => `hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] ${isActive ? "opacity-40" : ""}`}>Home</NavLink>
+
+              <NavLink to="maps" className={({ isActive }) => `hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] ${isActive ? "opacity-40" : ""}`}>Maps</NavLink>
+              <NavLink to="aboutus" className={({ isActive }) => `hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] ${isActive ? "opacity-40 " : ""}`}>About Us</NavLink>
+              <NavLink to="radar" className={({ isActive }) => `hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] ${isActive ? "opacity-40" : ""}`}>Prediction <i className="fa-solid fa-wand-magic-sparkles"></i></NavLink>
+            </div>
           </div>
-          <div id="nav-notification">
-            <button>
-              <i className="fa-regular fa-bell"></i>
-            </button>
-          </div>
-        </div> */}
-        {/* <div style={{height:"100%",width:"100%"}}> */}
+        )}
+
         <div
           id="nav-curr-loc"
-          className="ml-2 p-2 flex justify-between items-center gap-4 flex-shrink-0"
+          className="p-1 flex justify-between items-center gap-4  flex-none"
         >{/*flex-shrink-0 */}
           {!(WData.mainData === null) ? (
-            <p className="p-[5px] rounded-3xl px-2 mr-2 ml-[-3px] tracking-tighter max-w-[305px] flex items-center gap-2">
-              <i className="fa-regular fa-compass mr-[3px] "></i>{" "}
-               {WData.location.name?WData.location.name:"Please"} , {WData.location.region?WData.location.region:"enter valid"} , {WData.location.country?WData.location.country:"query..."} 
-              
+            <p className=" rounded-3xl px-2 tracking-tighter  max-w-[305px] flex items-center gap-2">
+              <i className="fa-regular fa-compass  text-xl md:text-2xl hidden sm:flex"></i>{" "}<p className="hidden sm:flex">
+                {WData.location.name ? WData.location.name : "Please"} , {WData.location.region ? WData.location.region : "enter valid"} , {WData.location.country ? WData.location.country : "query..."} </p>
+
             </p>
           ) : (
             <p className="p-[5px] rounded-3xl px-2 mr-2 ml-[-3px] max-w-[305px]">
-              <i className="fa-regular fa-compass mr-[3px]"></i> Current
-              Location
+              <i className="fa-regular fa-compass mr-[3px]"></i>
             </p>
           )}
-          <p className="flex" id="dark-light-btn">
+
+          <p className=" hidden sm:flex" id="dark-light-btn">
             <label
               htmlFor="check"
               className="bg-[#19191b] relative w-[56px] h-[28px] rounded-full cursor-pointer border-2 border-[#626161] top-[1.6px]"
@@ -149,40 +166,39 @@ function Navbar() {
             </label>
           </p>
         </div>
-        <div id="navigations" className="ml-48 mr-12 ">{/*flex-shrink-0 */}
+        <div id="navigations" className="ml-48 mr-12 hidden sm:flex">{/*flex-shrink-0 */}
           <ul className="flex justify-center items-center gap-6">
             <li className="hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms]">
-              <NavLink to="home" className={({isActive})=>`hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] ${isActive ? "opacity-40":"" }`}>Home</NavLink>
+              <NavLink to="home" className={({ isActive }) => `hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] ${isActive ? "opacity-40" : ""}`}>Home</NavLink>
             </li>
             <li className="hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms]">
-              <NavLink to="maps" className={({isActive})=>`hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] ${isActive ? "opacity-40":"" }`}>Maps</NavLink>
+              <NavLink to="maps" className={({ isActive }) => `hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] ${isActive ? "opacity-40" : ""}`}>Maps</NavLink>
             </li>
             <li className="hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] flex-shrink-0">
-              <NavLink to="aboutus" className={({isActive})=>`hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] ${isActive ? "opacity-40 ":"" }`}>About Us</NavLink>
+              <NavLink to="aboutus" className={({ isActive }) => `hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] ${isActive ? "opacity-40 " : ""}`}>About Us</NavLink>
             </li>
             <li className="hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] flex-shrink-0">
-              <NavLink to="radar" className={({isActive})=>`hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] ${isActive ? "opacity-40":"" }`}>Prediction <i className="fa-solid fa-wand-magic-sparkles"></i></NavLink>
-            </li> 
+              <NavLink to="radar" className={({ isActive }) => `hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms] ${isActive ? "opacity-40" : ""}`}>Prediction <i className="fa-solid fa-wand-magic-sparkles"></i></NavLink>
+            </li>
           </ul>
         </div>
-        <div id="nav-search" className="flex-row-reverse max-w-[650px] min-w-[250px] w-auto">
-          
-            <input
-              id="nav-searchbar"
-              type="search"
-              placeholder={window.innerWidth<768? "Y":"  Search by city or ZIP code..."}
-              className="w-full  border-solid  rounded-lg p-2  bg-[#1e1e1e] text-[#fefefe] outline-none"
-              value={ourQuery}
-              onChange={(e) => {
-                setOurQuery(e.target.value);
-              }} onKeyDown={dataSearchHandler}
-            />
-        
+        <div id="nav-search" className="flex flex-row-reverse items-center gap-2 mr-2 sm:w-[90px] md:w-[300px] lg:w-[400px] border-solid rounded-2xl px-3 py-2 bg-[#1e1e1e] justify-between">
+          <i className="fa-solid fa-magnifying-glass hover:cursor-pointer hover:opacity-70 transition-opacity duration-150" onClick={dataSearchHandler} />
+          <input
+            id="nav-searchbar"
+            type="search"
+            placeholder={window.innerWidth < 768 ? "" : "Search Here"}
+            className="outline-none bg-transparent text-sm placeholder:text-gray-400 w-full"
+            value={ourQuery}
+            onChange={(e) => setOurQuery(e.target.value)}
+            onKeyDown={dataSearchHandler}
+          />
         </div>
-        <div id="nav-profile" className="flex ">{/*flex-shrink-0 */}
+
+        <div id="nav-profile" className="flex justify-center items-center">{/*flex-shrink-0 */}
           <ul
             id="nav-notification-profile"
-            className="flex gap-4 justify-center items-center mr-5 ml-2"
+            className="flex gap-2 justify-center items-center"
           >
             <li className="rounded-full bg-[#1e1e1e] px-[0.8rem] py-[0.5rem] hover:cursor-pointer" onClick={notificationClickHandler} onTouchMoveCapture={notificationClickHandler}>
               <button >
@@ -190,13 +206,12 @@ function Navbar() {
               </button>
             </li>
             {notification ? <div
-          id="popup"
-          ref={notificationRef}
-          className={`bg-[#1e1e1e]  w-[220px] absolute right-[87.5px] top-[60px] rounded-2xl p-3 text-[#fff]  border-[1.8px] border-solid ${
-            notification ? "" : "hidden"
-          }`}
-        ><p className="text-[#fff]">No new notifications</p>
-        </div>:""}
+              id="popup"
+              ref={notificationRef}
+              className={`bg-[#1e1e1e]  w-[220px] absolute right-[87.5px] top-[60px] rounded-2xl p-3 text-[#fff]  border-[1.8px] border-solid ${notification ? "" : "hidden"
+                }`}
+            ><p className="text-[#fff]">No new notifications</p>
+            </div> : ""}
             <li
               className="rounded-full bg-[#1e1e1e] px-[0.8rem] py-[0.5rem] hover:cursor-pointer "
               onClick={profileClickHandler}
@@ -213,9 +228,8 @@ function Navbar() {
         <div
           id="popup"
           ref={popupRef}
-          className={`bg-[#1e1e1e]  w-[220px] absolute right-[37.5px] rounded-2xl p-3 text-[#fff] z-30 border-[1.8px] border-solid ${
-            profileVisible ? "" : "hidden"
-          }`}
+          className={`bg-[#1e1e1e]  w-[220px] absolute right-[37.5px] rounded-2xl p-3 text-[#fff] z-30 border-[1.8px] border-solid ${profileVisible ? "" : "hidden"
+            }`}
         >
           <div id="profile_menu" className="flex-col " ref={popupRef}>
             <div
@@ -294,9 +308,8 @@ function Navbar() {
         <div
           id="popup_login"
           ref={popupLoginRef}
-          className={`bg-[#1e1e1e]  w-[220px] absolute right-[37.5px] rounded-2xl p-3 text-[#fff] z-30 border-[1.8px] border-solid border-[#D8E9F9] ${
-            login ? "hidden" : ""
-          } ${profileVisible ? "" : "hidden"}`}
+          className={`bg-[#1e1e1e]  w-[220px] absolute right-[37.5px] rounded-2xl p-3 text-[#fff] z-30 border-[1.8px] border-solid border-[#D8E9F9] ${login ? "hidden" : ""
+            } ${profileVisible ? "" : "hidden"}`}
         >
           <div id="profile_menu" className="flex-col ">
             {/* <hr className="h-[1px] w-full mt-2 mb-3" /> */}

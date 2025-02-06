@@ -62,7 +62,7 @@ function OtherCitiesContainer() {
   // console.log(DMCdata.ChennaiData);
 
   return (
-    <div className="grid gap-3 mb-[-50px] text-[#fff] px-4 mt-[-70.5px] min-w-[250px]">
+    <div className="grid gap-3 mt-4 text-[#fff] px-4  min-w-[250px]">
       <div id="heading_city_dashboard" className="flex justify-between">
         <h4>Other Cities</h4>
         <p className="hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms]">See All</p>

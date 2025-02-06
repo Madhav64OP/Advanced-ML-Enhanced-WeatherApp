@@ -29,19 +29,21 @@ function Home() {
   }, [next7DaysData]) 
   
   return (
-    <div id="home">
+    <div id="home" className="top-0 sticky overflow-hidden">
       <TT7/>
+      <div className="flex flex-col justify-center items-center lg:flex-row lg:gap-3 lg:p-7">
+      <MainCard />
       <div
         id="temp-cards-home"
-        className="flex justify-between items-center mt-[30px] mx-[40px]"
+        className="grid gap-3 grid-cols-3 md:flex  lg:flex lg:grid-cols-7 lg:gap-3  mt-[30px] mx-[40px]"
       >
-        <MainCard />
         {!next7DaysData && WeekDaysData.map((day) => (
           <DayCard day={week[new Date(day.valid_date).getDay()]} key={nanoid()} temp={day.temp} icon={day.weather.icon}/>            
         ))}
         {/*dayTemp={daytemp} */}
       </div>
-      <div className="flex justify-between items-center gap-5 mx-[40px]  pt-7" id="app_dashboard">
+      </div>
+      <div className="flex flex-wrap justify-evenly items-center gap-5 mx-[40px]  pt-7" id="app_dashboard">
         <HumidTab />
         <VisibilityTab />
         <WindTab />

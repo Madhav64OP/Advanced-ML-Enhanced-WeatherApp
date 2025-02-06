@@ -1,15 +1,11 @@
-#home{
+/* #home{
     width: 100%;
-    /* top: 0;
-    right: 0;
-    left: 0; */
-}
+} */
 
-@media screen and (max-width:768px) {
+/* @media screen and (max-width:768px) {
     #temp-cards-home{
         display: flex;
         flex-direction: column;
-        /* justify-content: center;
-        align-items: center; */
+        
     }
-}
+} */
