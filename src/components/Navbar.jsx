@@ -3,6 +3,7 @@ import "./Navbar.css";
 import { useSelector, useDispatch } from "react-redux";
 import { updateQuery, fetchWeatherData, fetchWeekData } from "../redux/slices/WeatherDataSlice";
 import { NavLink } from "react-router-dom";
+import { nanoid } from "@reduxjs/toolkit";
 // import {} from "./OtherCitiesContainer"
 
 function Navbar() {
@@ -12,6 +13,9 @@ function Navbar() {
   const [ourQuery, setOurQuery] = useState("");
   const [profileVisible, setProfileVisible] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [suggestionInput, setSuggestionInput] = useState("");
+  const urlSugKey = import.meta.env.VITE_OPEN_WEATHER_KEY;
   // const [notificationEnable, setNotificationEnable] = useState("hidden")
 
   const popupRef = useRef(null);
@@ -24,6 +28,42 @@ function Navbar() {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  }
+
+  const handleSuggestions = async (query) => {
+    try {
+      const res = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=15&appid=${urlSugKey}`);
+      const data = await res.json();
+      // console.log(data);
+      setSuggestions(data);
+    } catch (error) {
+      // console.log("...");
+      setSuggestions([]);
+
+    }
+
+  }
+
+  useEffect(() => {
+    if(ourQuery.trim===""){
+      setSuggestions([]);
+      return;
+    }
+  },[ourQuery]);
+  
+
+  const handleChangedValue = (e) => {
+    const newQuery = e.target.value;
+    setOurQuery(newQuery);
+    setSuggestions([]);
+    if (newQuery) {
+      handleSuggestions(newQuery);
+    }
+    else {
+      setSuggestions([]);
+    }
+    // handleSuggestions(ourQuery);
+    // console.log(newQuery);
   }
 
   const onClickHandler = () => {
@@ -46,8 +86,21 @@ function Navbar() {
       if (ourQuery !== "") dispatch(fetchWeatherData())
       if (ourQuery !== "") dispatch(fetchWeekData())
       setOurQuery("")
+      setSuggestions([]);
     }
   };
+
+  const handleSuggestionInput=(sug)=>{
+    setSuggestionInput(sug);
+    // event.preventDefault();
+    dispatch(updateQuery(sug.name));
+      // dispatch(updateData())
+    if (ourQuery !== "") dispatch(fetchWeatherData())
+    if (ourQuery !== "") dispatch(fetchWeekData())
+    setOurQuery("")
+    setSuggestions([]);
+    // console.log(suggestionInput);
+  }
 
   // useEffect(() => {
   //   const navSearch=document.querySelector("#nav-search");
@@ -99,14 +152,14 @@ function Navbar() {
   return (
     <>
       <div
-        className="w-full aspect-auto bg-[#111015] text-[#fefefe] flex items-center justify-between sticky  top-0 pt-2  z-20 mb-2 "
+        className="w-full aspect-auto bg-[#111015] text-[#fefefe] flex items-center justify-between sticky  top-0 pt-2  z-20 mb-2 mt-1"
         id="main-nav"
       >
         <div id="hamburger-menu" className=" flex justify-center items-center sm:hidden p-3  gap-5">
           <button onClick={toggleMobileMenu} className="hover:cursor-pointer hover:opacity-50 transition-all duration-[279ms]">
             <i className="fa-solid fa-bars text-xl md:text-2xl"></i>
           </button>
-          <i className="fa-regular fa-compass  text-xl md:text-2xl flex sm:hidden"></i>
+          {/* <i className="fa-regular fa-compass  text-xl md:text-2xl flex sm:hidden"></i> */}
         </div>
 
         {isMobileMenuOpen && (
@@ -130,17 +183,17 @@ function Navbar() {
 
         <div
           id="nav-curr-loc"
-          className="p-1 flex justify-between items-center gap-4  flex-none"
+          className="p-1  justify-between items-center gap-4 hidden sm:flex  flex-none"
         >{/*flex-shrink-0 */}
           {!(WData.mainData === null) ? (
             <p className=" rounded-3xl px-2 tracking-tighter  max-w-[305px] flex items-center gap-2">
-              <i className="fa-regular fa-compass  text-xl md:text-2xl hidden sm:flex"></i>{" "}<p className="hidden sm:flex">
+              <i className="fa-regular fa-compass  text-xl md:text-2xl "></i>{" "}<p className="hidden sm:flex">
                 {WData.location.name ? WData.location.name : "Please"} , {WData.location.region ? WData.location.region : "enter valid"} , {WData.location.country ? WData.location.country : "query..."} </p>
 
             </p>
           ) : (
             <p className="p-[5px] rounded-3xl px-2 mr-2 ml-[-3px] max-w-[305px]">
-              <i className="fa-regular fa-compass mr-[3px]"></i>
+              <i className="fa-regular fa-compass mr-[3px] sm:flex hidden"></i>
             </p>
           )}
 
@@ -182,18 +235,38 @@ function Navbar() {
             </li>
           </ul>
         </div>
-        <div id="nav-search" className="flex flex-row-reverse items-center gap-2 mr-2 sm:w-[90px] md:w-[300px] lg:w-[400px] border-solid rounded-2xl px-3 py-2 bg-[#1e1e1e] justify-between">
-          <i className="fa-solid fa-magnifying-glass hover:cursor-pointer hover:opacity-70 transition-opacity duration-150" onClick={dataSearchHandler} />
-          <input
-            id="nav-searchbar"
-            type="search"
-            placeholder={window.innerWidth < 768 ? "" : "Search Here"}
-            className="outline-none bg-transparent text-sm placeholder:text-gray-400 w-full"
-            value={ourQuery}
-            onChange={(e) => setOurQuery(e.target.value)}
-            onKeyDown={dataSearchHandler}
-          />
+        <div className="search-and-cards">
+          <div id="nav-search" className="flex relative flex-row-reverse items-center gap-2 mr-2 min-w-[52px] max-w-[300px] w-full border-solid rounded-2xl px-3 py-2 bg-[#1e1e1e] justify-between">
+            <i className="fa-solid fa-magnifying-glass hover:cursor-pointer hover:opacity-70 transition-opacity duration-150" onClick={dataSearchHandler} />
+            <input
+              id="nav-searchbar"
+              type="search"
+              placeholder={window.innerWidth < 768 ? "" : "Search Here"}
+              className="outline-none bg-transparent text-sm placeholder:text-gray-400 w-full"
+              value={ourQuery}
+              onChange={handleChangedValue}
+              onKeyDown={dataSearchHandler}
+
+            />
+          </div>
+          {suggestions.length > 0 && (
+            <div id="cards" className="absolute w-full max-w-[226px] min-w-[52px] rounded-md overflow-hidden shadow-lg z-10">
+              {
+                suggestions.map((sug) => (
+                  <div key={nanoid()} className="bg-[#1e1e1e] text-xs sm:text-sm py-2 px-3  font-normal text-[#D8E9F9] flex justify-start gap-1 items-center hover:cursor-pointer hover:text-opacity-50 transition-all duration-[279ms] " onClick={()=>{
+                    // setSuggestionInput(sug);
+                    handleSuggestionInput(sug);
+                  }}>
+                    <p>{sug.name},</p>
+                    <p>{sug.state},</p>
+                    <p>{sug.country}</p>
+                  </div>
+                ))
+              }
+            </div>
+          )}
         </div>
+
 
         <div id="nav-profile" className="flex justify-center items-center">{/*flex-shrink-0 */}
           <ul
@@ -332,7 +405,15 @@ function Navbar() {
             </div>
           </div>
         </div>
+
       )}
+      <div className="mx-3 mt-2 mb-3">
+        <p className=" rounded-3xl text-[#e5e5e5] px-2 tracking-tighter md:text-2xl sm:hidden   max-w-[305px] flex items-center gap-2">
+          <i className="fa-regular fa-compass   text-lg  md:text-2xl sm:hidden flex"></i>{" "}<p className="flex sm:hidden text-[#e5e5e5] text-sm font-[500]">
+            {WData.location.name ? WData.location.name : "Please"} , {WData.location.region ? WData.location.region : "enter valid"} , {WData.location.country ? WData.location.country : "query..."} </p>
+        </p>
+      </div>
+
     </>
   );
 }
