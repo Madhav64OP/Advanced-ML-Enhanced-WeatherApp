@@ -45,12 +45,12 @@ function Navbar() {
   }
 
   useEffect(() => {
-    if(ourQuery.trim===""){
+    if (ourQuery.trim === "") {
       setSuggestions([]);
       return;
     }
-  },[ourQuery]);
-  
+  }, [ourQuery]);
+
 
   const handleChangedValue = (e) => {
     const newQuery = e.target.value;
@@ -90,11 +90,11 @@ function Navbar() {
     }
   };
 
-  const handleSuggestionInput=(sug)=>{
+  const handleSuggestionInput = (sug) => {
     setSuggestionInput(sug);
     // event.preventDefault();
     dispatch(updateQuery(sug.name));
-      // dispatch(updateData())
+    // dispatch(updateData())
     if (ourQuery !== "") dispatch(fetchWeatherData())
     if (ourQuery !== "") dispatch(fetchWeekData())
     setOurQuery("")
@@ -253,13 +253,16 @@ function Navbar() {
             <div id="cards" className="absolute w-full max-w-[226px] min-w-[52px] rounded-md overflow-hidden shadow-lg z-10">
               {
                 suggestions.map((sug) => (
-                  <div key={nanoid()} className="bg-[#1e1e1e] text-xs sm:text-sm py-2 px-3  font-normal text-[#D8E9F9] flex justify-start gap-1 items-center hover:cursor-pointer hover:text-opacity-50 transition-all duration-[279ms] " onClick={()=>{
-                    // setSuggestionInput(sug);
-                    handleSuggestionInput(sug);
-                  }}>
+                  <div key={nanoid()} className="bg-[#1e1e1e] text-xs sm:text-sm py-2 px-3  font-normal text-[#D8E9F9] flex justify-start gap-1 items-center hover:cursor-pointer hover:text-opacity-50 transition-all duration-[279ms] flex-col" onClick={() => (
+                    handleSuggestionInput(sug)
+                  )}>
                     <p>{sug.name},</p>
-                    <p>{sug.state},</p>
-                    <p>{sug.country}</p>
+                    <div id="secondary-text" className="flex justify-start text-[8px]">
+
+                      <p>{sug.state},</p>
+                      <p>{sug.country}</p>
+                    </div>
+
                   </div>
                 ))
               }
