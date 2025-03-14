@@ -32,7 +32,7 @@ function Navbar() {
 
   const handleSuggestions = async (query) => {
     try {
-      const res = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=15&appid=${urlSugKey}`);
+      const res = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=15&appid=${urlSugKey}`);
       const data = await res.json();
       // console.log(data);
       setSuggestions(data);
